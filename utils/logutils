@@ -1,0 +1,26 @@
+# -*- coding: utf-8 -*-
+import time
+import win32api
+import win32con
+
+
+class Log(object):
+    def write(self, level, msg):
+        date = time.strftime("%Y-%m-%d", time.localtime())
+        log_file = r"{0}{1}{2}".format( "ai.", date, ".log")
+        line = "{0} {1} {2}\n".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), level, msg)
+        with open(log_file, 'a', encoding='utf-8') as f:
+            f.write(line)
+
+    def info(self, msg):
+        self.write("INFO", msg)
+
+    def error(self, msg):
+        self.write("ERROR", msg)
+
+    @staticmethod
+    def notice_info(msg: str):
+        win32api.MessageBox(0, f"{msg}", "警告", win32con.MB_ICONWARNING)
+
+
+log = Log()
